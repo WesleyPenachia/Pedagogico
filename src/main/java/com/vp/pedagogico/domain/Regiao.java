@@ -24,12 +24,14 @@ public class Regiao implements Serializable {
 	private Integer id;
 	private String	nome;
 	
-	@JsonBackReference
+
 	@ManyToMany
 	@JoinTable(name="FUNCIONARIO_REGIAO",
 		joinColumns = @JoinColumn(name="regiao_id"),
-		inverseJoinColumns = @JoinColumn(name="funcionario_id")
+		inverseJoinColumns = @JoinColumn(name="funcionarios_id")
 	)
+	
+	@JsonBackReference
 	private List<Funcionario> funcionarios = new ArrayList<>();
 	
 	public Regiao() {
@@ -39,6 +41,15 @@ public class Regiao implements Serializable {
 		super();
 		this.id = id;
 		this.nome = nome;
+	}
+
+
+	public List<Funcionario> getFuncionarios() {
+		return funcionarios;
+	}
+
+	public void setFuncionarios(List<Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
 	}
 
 	public Integer getId() {
@@ -57,13 +68,6 @@ public class Regiao implements Serializable {
 		this.nome = nome;
 	}
 
-	public List<Funcionario> getFuncionarios() {
-		return funcionarios;
-	}
-
-	public void setFuncionarios(List<Funcionario> funcionarios) {
-		this.funcionarios = funcionarios;
-	}
 
 	@Override
 	public int hashCode() {

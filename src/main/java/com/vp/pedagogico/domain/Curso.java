@@ -13,35 +13,38 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Atividade implements Serializable {
+public class Curso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String nome;
-	private String gatilho;
+	private String nome;	
+	private String status;
+	private String observacao;
 
+	
+	@JsonManagedReference
 	@ManyToMany
-	@JoinTable(name="FUNCIONARIO_ATIVIDADE",
-		joinColumns = @JoinColumn(name="atividade_id"),
-		inverseJoinColumns = @JoinColumn(name="funcionario_id")
+	@JoinTable(name="DISCIPLINA_CURSO",
+		joinColumns = @JoinColumn(name="curso_id"),
+		inverseJoinColumns = @JoinColumn(name="disciplina_id")
 	)
-	@JsonBackReference
-	private List<Funcionario> funcionarios = new ArrayList<>();
-	
-	
-	public Atividade() {
-	}
+	private List<Disciplina> disciplinas = new ArrayList<>();
 
-	public Atividade(Integer id, String nome, String gatilho) {
+	
+	public Curso() {
+	}
+	
+	public Curso(Integer id, String nome, String status, String observacao) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.gatilho = gatilho;
+		this.status = status;
+		this.observacao = observacao;
 	}
 
 	public Integer getId() {
@@ -60,27 +63,34 @@ public class Atividade implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getGatilho() {
-		return gatilho;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setGatilho(String gatilho) {
-		this.gatilho = gatilho;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+
+
+	public List<Disciplina> getDisciplinas() {
+		return disciplinas;
+	}
+
+	public void setDisciplinas(List<Disciplina> disciplinas) {
+		this.disciplinas = disciplinas;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-	
-	
-
-	public List<Funcionario> getFuncionarios() {
-		return funcionarios;
-	}
-
-	public void setFuncionarios(List<Funcionario> funcionarios) {
-		this.funcionarios = funcionarios;
 	}
 
 	@Override
@@ -96,7 +106,7 @@ public class Atividade implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Atividade other = (Atividade) obj;
+		Curso other = (Curso) obj;
 		return Objects.equals(id, other.id);
 	}
 }

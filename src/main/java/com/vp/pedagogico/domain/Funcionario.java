@@ -30,24 +30,24 @@ public class Funcionario implements Serializable {
 	private String matricula;
 	private Date dataAdmissao;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="cargo_id")
-	@JsonManagedReference
 	private Cargo cargo;
-	
-	@JsonManagedReference
-	@ManyToMany(mappedBy = "funcionarios")
-	private List<Regiao> regioes = new ArrayList<>();
-	
 	
 	@JsonManagedReference
 	@ManyToMany(mappedBy = "funcionarios")
 	private List<Atividade> atividades = new ArrayList<>();
 	
+	@JsonManagedReference
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "funcionarios")
 	private Professor professores;
 	
-
+	@ManyToMany(mappedBy = "funcionarios")
+	@JsonManagedReference
+	private List<Regiao> regioes = new ArrayList<>();
+	
+	
 	public Funcionario() {
 	}
 
@@ -108,15 +108,6 @@ public class Funcionario implements Serializable {
 	public Cargo getCargo() {
 		return cargo;
 	}
-
-	public List<Regiao> getRegioes() {
-		return regioes;
-	}
-
-
-	public void setRegioes(List<Regiao> regioes) {
-		this.regioes = regioes;
-	}
 	
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
@@ -144,6 +135,17 @@ public class Funcionario implements Serializable {
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+
+	
+	public List<Regiao> getRegioes() {
+		return regioes;
+	}
+
+
+	public void setRegioes(List<Regiao> regioes) {
+		this.regioes = regioes;
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {

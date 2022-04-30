@@ -1,13 +1,19 @@
 package com.vp.pedagogico.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Professor implements Serializable {
@@ -18,10 +24,18 @@ public class Professor implements Serializable {
 	private String status;
 	private String obsercacao;
 	
+
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name="funcionario_id")
 	@MapsId
 	private Funcionario funcionarios;
+	
+
+	@JsonManagedReference
+	@ManyToMany(mappedBy = "professores")
+	private List<Disciplina>disciplinas = new ArrayList<>();
+	
 	
 	public Professor() {
 	}
@@ -34,6 +48,7 @@ public class Professor implements Serializable {
 		this.funcionarios = funcionarios;
 	}
 
+	
 	public Integer getId() {
 		return id;
 	}
@@ -65,6 +80,14 @@ public class Professor implements Serializable {
 	public void setFuncionarios(Funcionario funcionarios) {
 		this.funcionarios = funcionarios;
 	}
+	
+	public List<Disciplina> getDisciplinas() {
+		return disciplinas;
+	}
+
+	public void setDisciplinas(List<Disciplina> disciplinas) {
+		this.disciplinas = disciplinas;
+	}
 
 	@Override
 	public int hashCode() {
@@ -82,4 +105,5 @@ public class Professor implements Serializable {
 		Professor other = (Professor) obj;
 		return Objects.equals(id, other.id);
 	}
+
 }
