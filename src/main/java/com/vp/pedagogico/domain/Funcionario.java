@@ -2,9 +2,11 @@ package com.vp.pedagogico.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -25,7 +28,7 @@ public class Funcionario implements Serializable {
 	private String	nome;
 	private String	email;
 	private String matricula;
-	private Long dataAdmissao;
+	private Date dataAdmissao;
 	
 	@ManyToOne
 	@JoinColumn(name="cargo_id")
@@ -37,21 +40,28 @@ public class Funcionario implements Serializable {
 	private List<Regiao> regioes = new ArrayList<>();
 	
 	
+	@JsonManagedReference
+	@ManyToMany(mappedBy = "funcionarios")
+	private List<Atividade> atividades = new ArrayList<>();
+	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "funcionarios")
+	private Professor professores;
+	
+
 	public Funcionario() {
 	}
 
-	
-	public Funcionario(Integer id, String nome, String email, String matricula, Long dataAdmissao, Cargo cargo) {
+
+	public Funcionario(Integer id, String nome, String email, String matricula, Date dataAdmissao, Cargo cargo) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.matricula = matricula;
 		this.dataAdmissao = dataAdmissao;
-		this.cargo = cargo;
-	}
+		this.cargo = cargo;	}
 
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -84,13 +94,16 @@ public class Funcionario implements Serializable {
 		this.matricula = matricula;
 	}
 
-	public Long getDataAdmissao() {
+
+	public Date getDataAdmissao() {
 		return dataAdmissao;
 	}
 
-	public void setDataAdmissao(Long dataAdmissao) {
+
+	public void setDataAdmissao(Date dataAdmissao) {
 		this.dataAdmissao = dataAdmissao;
 	}
+
 
 	public Cargo getCargo() {
 		return cargo;
@@ -109,7 +122,24 @@ public class Funcionario implements Serializable {
 		this.cargo = cargo;
 	}
 
+	public List<Atividade> getAtividades() {
+		return atividades;
+	}
 
+
+	public void setAtividades(List<Atividade> atividades) {
+		this.atividades = atividades;
+	}
+
+	public Professor getProfessores() {
+		return professores;
+	}
+
+
+	public void setProfessores(Professor professores) {
+		this.professores = professores;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -126,4 +156,5 @@ public class Funcionario implements Serializable {
 		Funcionario other = (Funcionario) obj;
 		return Objects.equals(id, other.id);
 	}
+
 }

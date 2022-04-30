@@ -26,13 +26,13 @@ public class Atividade implements Serializable {
 	private String gatilho;
 
 	@ManyToMany
-	@JoinTable(name="USUARIO_ATIVIDADE",
+	@JoinTable(name="FUNCIONARIO_ATIVIDADE",
 		joinColumns = @JoinColumn(name="atividade_id"),
-		inverseJoinColumns = @JoinColumn(name="usuario_id")
+		inverseJoinColumns = @JoinColumn(name="funcionario_id")
 	)
 	
 	@JsonBackReference
-	private List<Usuario> usuarios = new ArrayList<>();
+	private List<Funcionario> funcionarios = new ArrayList<>();
 	
 	
 	public Atividade() {
@@ -69,16 +69,19 @@ public class Atividade implements Serializable {
 		this.gatilho = gatilho;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	
+
+	public List<Funcionario> getFuncionarios() {
+		return funcionarios;
+	}
+
+	public void setFuncionarios(List<Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
 	}
 
 	@Override

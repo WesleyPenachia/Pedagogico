@@ -1,17 +1,12 @@
 package com.vp.pedagogico.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -24,10 +19,6 @@ public class Usuario implements Serializable {
 	private String	usuario;
 	private String	senha;
 	private String perfil;
-	
-	@JsonManagedReference
-	@ManyToMany(mappedBy = "usuarios")
-	private List<Atividade> atividades = new ArrayList<>();
 
 	
 	public Usuario() {
@@ -80,16 +71,6 @@ public class Usuario implements Serializable {
 
 	public void setPerfil(String perfil) {
 		this.perfil = perfil;
-	}
-
-
-	public List<Atividade> getAtividades() {
-		return atividades;
-	}
-
-
-	public void setAtividades(List<Atividade> atividades) {
-		this.atividades = atividades;
 	}
 
 
